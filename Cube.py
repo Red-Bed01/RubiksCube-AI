@@ -1,17 +1,5 @@
 from tkinter import *
 
-def turn(face, direction) :
-        newFace = [[0 for j in range(3)] for i in range(3)]
-        if direction == 1:
-            for i in range(3) :
-                for j in range(3) :
-                    newFace[i][j] = face[2-j][i]
-        else :
-            for i in range(3) :
-                for j in range(3) :
-                    newFace[i][j] = face[j][2-i]
-        return newFace
-
 class RubiksCube :
 
     w = [[0 for j in range(3)] for i in range(3)]
@@ -56,6 +44,18 @@ class RubiksCube :
             for j in range(3) :
                 canvas.create_rectangle((longueur/2 - 1.5*c)+120+c*j+6*c, c*i+40+3*c, c*j-c+120+6*c+(longueur/2 - 1.5*c), c*i+40+4*c, fill=self.color[self.cube["g"][i][j]])
         root.mainloop()
+
+    def turn(self, face, direction) :
+        newFace = [[0 for j in range(3)] for i in range(3)]
+        if direction == 1:
+            for i in range(3) :
+                for j in range(3) :
+                    newFace[i][j] = face[2-j][i]
+        else :
+            for i in range(3) :
+                for j in range(3) :
+                    newFace[i][j] = face[j][2-i]
+        return newFace
 
 cube = RubiksCube()
 cube.printCube()
