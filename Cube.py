@@ -9,7 +9,7 @@ class RubiksCube:
         [[2 for j in range(3)] for i in range(3)],  # Blue
         [[3 for j in range(3)] for i in range(3)],  # Red
         [[4 for j in range(3)] for i in range(3)],  # Green
-        [[5 for j in range(3)] for i in range(3)]  # Orange
+        [[5 for j in range(3)] for i in range(3)]   # Orange
     ]
 
     color = ["white", "yellow", "blue", "red", "green", "orange"]
