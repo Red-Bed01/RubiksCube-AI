@@ -16,7 +16,7 @@ class RubiksCube:
     color = ["white", "yellow", "blue", "red", "green", "orange"]
 
     def __init__(self, windowWidth=1280, windowHeight=680, cubeDisplaySize=60):
-        # Open tkinter window
+        # --- Create tkinter window
         self.windowWidth = windowWidth
         self.windowHeight = windowHeight
         self.tkRoot = Tk()
@@ -26,8 +26,8 @@ class RubiksCube:
                              height=self.windowHeight)
         self.canvas.pack(fill="both", expand=True)
 
-        # Display the cube
-        self.cubesDisplayIDs = [[] for i in range(6)]
+        # --- Create the cube display
+        self.cubesDisplayIDs = [[] for i in range(6)] # List to save the cubes canvas IDs
 
         for i in range(3):
             self.cubesDisplayIDs[1].append([])
@@ -104,8 +104,12 @@ class RubiksCube:
                         (self.windowWidth / 2 - 1.5 * cubeDisplaySize),
                         cubeDisplaySize * i + 40 + 4 * cubeDisplaySize,
                         fill=self.color[self.cube[4][i][j]]))
+        
+        # TODO Implement buttons to close/update the window
+
 
     def updateDisplay(self):
+        # Updating tkinter window
         for face in range(6):
             for line in range(3):
                 for cube in range(3):
@@ -125,26 +129,21 @@ class RubiksCube:
         print()
 
     def turnFace(self, face, direction):
-        newFace = [[0 for i in range(3)] for j in range(3)]
-        if direction > 0:
-            for i in range(3):
-                for j in range(3):
-                    newFace[i][j] = self.cube[face][2 - j][i]
-
-        elif direction < 0:
-            for i in range(3):
-                for j in range(3):
-                    newFace[i][j] = self.cube[face][j][2 - i]
-
+        if direction > 0 or direction < 0:
+            for loop in range(abs(direction)):
+                newFace = [[0 for i in range(3)] for j in range(3)]
+                for i in range(3):
+                    for j in range(3):
+                        newFace[i][j] = self.cube[face][2 - j][i] if direction > 0 else self.cube[face][j][2 - i]
+                self.cube[face] = newFace
         else:
-            raise ValueError("turn = 0")
-
-        self.cube[face] = newFace
+            raise ValueError("Please enter a valid value for direction")
 
 
 cube = RubiksCube()
 cube.cube[2][0] = [0, 0, 0]
 cube.updateDisplay()
 sleep(2)
-cube.turnFace(2, -1)
+cube.turnFace(2, 1)
 cube.updateDisplay()
+sleep(5)
