@@ -129,6 +129,18 @@ class RubiksCube:
         print()
 
     def turnFace(self, face, direction):
+        # List wich references the faces that is connected to each face of the cube in the clockwise order
+        # TODO: Finish implement this
+        faceMoves = [
+            [2, 3, 4, 5], # White
+            [2, 5, 4, 3], # Yellow
+            [0], # Blue
+            [], # Red
+            [], # Green
+            []  # Orange
+        ]
+
+        # --- Turning the only the selected face
         if direction > 0 or direction < 0:
             for loop in range(abs(direction)):
                 newFace = [[0 for i in range(3)] for j in range(3)]
