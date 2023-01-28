@@ -148,11 +148,13 @@ class RubiksCube:
                 # --- Turning connected faces
                 # TODO: Finish implementing this
                 if direction > 0:
-                    self.cube[faceMoves[face][0]][0] = [
+                    self.cube[faceMoves[face][0]][0] = [ 
                         self.cube[faceMoves[face][3]][0][0],
                         self.cube[faceMoves[face][3]][1][0],
                         self.cube[faceMoves[face][3]][2][0]
                     ]
+
+                    self.cube[faceMoves[face][1]][]
                 else:
                     pass
         else:
