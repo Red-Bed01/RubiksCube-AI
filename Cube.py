@@ -104,9 +104,6 @@ class RubiksCube:
                         (self.windowWidth / 2 - 1.5 * cubeDisplaySize),
                         cubeDisplaySize * i + 40 + 4 * cubeDisplaySize,
                         fill=self.color[self.cube[4][i][j]]))
-        
-        # TODO Implement buttons to close/update the window
-
 
     def updateDisplay(self):
         # Updating tkinter window
@@ -130,30 +127,45 @@ class RubiksCube:
 
     def turnFace(self, face, direction):
         # List wich references the faces that is connected to each face of the cube in the clockwise order
-        # TODO: Finish implement this
         faceMoves = [
             [2, 3, 4, 5], # White
             [2, 5, 4, 3], # Yellow
-            [0], # Blue
-            [], # Red
-            [], # Green
-            []  # Orange
+            [0, 5, 1, 3], # Blue
+            [0, 2, 1, 4], # Red
+            [0, 3, 1, 5], # Green
+            [0, 4, 1, 2]  # Orange
         ]
 
-        # --- Turning the only the selected face
         if direction > 0 or direction < 0:
             for loop in range(abs(direction)):
+                # --- Turning the only the selected face
                 newFace = [[0 for i in range(3)] for j in range(3)]
                 for i in range(3):
                     for j in range(3):
                         newFace[i][j] = self.cube[face][2 - j][i] if direction > 0 else self.cube[face][j][2 - i]
                 self.cube[face] = newFace
+
+                # --- Turning connected faces
+                # TODO: Finish implementing this
+                if direction > 0:
+                    self.cube[faceMoves[face][0]][0] = [
+                        self.cube[faceMoves[face][3]][0][0],
+                        self.cube[faceMoves[face][3]][1][0],
+                        self.cube[faceMoves[face][3]][2][0]
+                    ]
+                else:
+                    pass
         else:
             raise ValueError("Please enter a valid value for direction")
 
 
 cube = RubiksCube()
 cube.cube[2][0] = [0, 0, 0]
+cube.cube[3] = [
+    [2, 3, 3],
+    [2, 3, 3],
+    [2, 3, 3]
+]
 cube.updateDisplay()
 sleep(2)
 cube.turnFace(2, 1)
