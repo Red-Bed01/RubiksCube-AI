@@ -1,5 +1,6 @@
 from tkinter import *
-from time import sleep
+import time
+import copy
 
 
 class RubiksCube:
@@ -136,40 +137,71 @@ class RubiksCube:
             [0, 4, 1, 2]  # Orange
         ]
 
-        if direction > 0 or direction < 0:
-            for loop in range(abs(direction)):
+        for loop in range(abs(direction)):
+            # Variable that will be aplied the changes
+            newCube = copy.deepcopy(self.cube)
+
+            if direction > 0:
                 # --- Turning the only the selected face
-                newFace = [[0 for i in range(3)] for j in range(3)]
                 for i in range(3):
                     for j in range(3):
-                        newFace[i][j] = self.cube[face][2 - j][i] if direction > 0 else self.cube[face][j][2 - i]
-                self.cube[face] = newFace
+                        newCube[face][i][j] = self.cube[face][2 - j][i]
 
                 # --- Turning connected faces
-                # TODO: Finish implementing this
-                if direction > 0:
-                    self.cube[faceMoves[face][0]][0] = [ 
-                        self.cube[faceMoves[face][3]][0][0],
-                        self.cube[faceMoves[face][3]][1][0],
-                        self.cube[faceMoves[face][3]][2][0]
-                    ]
+                newCube[faceMoves[face][0]][0] = [ 
+                    self.cube[faceMoves[face][3]][0][0],
+                    self.cube[faceMoves[face][3]][1][0],
+                    self.cube[faceMoves[face][3]][2][0]
+                ]
 
-                    self.cube[faceMoves[face][1]][]
-                else:
-                    pass
-        else:
-            raise ValueError("Please enter a valid value for direction")
+                newCube[faceMoves[face][1]][0][2], newCube[faceMoves[face][1]][1][2], newCube[faceMoves[face][1]][2][2] = \
+                self.cube[faceMoves[face][0]][0]
+
+                newCube[faceMoves[face][2]][2] = [
+                    self.cube[faceMoves[face][1]][0][2],
+                    self.cube[faceMoves[face][1]][1][2],
+                    self.cube[faceMoves[face][1]][2][2] 
+                ]
+
+                newCube[faceMoves[face][3]][0][0], newCube[faceMoves[face][3]][1][0], newCube[faceMoves[face][3]][2][0] = \
+                self.cube[faceMoves[face][2]][2]
+            
+            elif direction < 0:
+                # --- Turning the only the selected face
+                for i in range(3):
+                    for j in range(3):
+                        newCube[face][i][j] = self.cube[face][j][2 - i]
+
+                # --- Turning connected faces
+                newCube[faceMoves[face][0]][0] = [
+                    self.cube[faceMoves[face][1]][0][2],
+                    self.cube[faceMoves[face][1]][1][2],
+                    self.cube[faceMoves[face][1]][2][2]
+                ]
+
+                newCube[faceMoves[face][1]][0][2], newCube[faceMoves[face][1]][1][2], newCube[faceMoves[face][1]][2][2] = \
+                self.cube[faceMoves[face][2]][2]
+
+                newCube[faceMoves[face][2]][2] = [
+                    self.cube[faceMoves[face][3]][0][0],
+                    self.cube[faceMoves[face][3]][1][0],
+                    self.cube[faceMoves[face][3]][2][0]
+                ]
+
+                newCube[faceMoves[face][3]][0][0], newCube[faceMoves[face][3]][1][0], newCube[faceMoves[face][3]][2][0] = \
+                self.cube[faceMoves[face][0]][0]
+            
+            else:
+                raise ValueError("Please enter a valid value for direction")
+
+            # Applying the changes
+            self.cube = copy.deepcopy(newCube)
 
 
 cube = RubiksCube()
 cube.cube[2][0] = [0, 0, 0]
-cube.cube[3] = [
-    [2, 3, 3],
-    [2, 3, 3],
-    [2, 3, 3]
-]
 cube.updateDisplay()
-sleep(2)
-cube.turnFace(2, 1)
+time.sleep(2)
+cube.turnFace(2, -1)
 cube.updateDisplay()
-sleep(5)
+time.sleep(10)
